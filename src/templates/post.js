@@ -13,6 +13,7 @@ const Post = ({ pageContext }) => {
         variables: variables,
         data: parsedMdx,
     });
+    console.log(data);
 
     if (edit) {
         return (

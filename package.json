@@ -1,35 +1,37 @@
 {
-  "name": "tinatsby",
-  "version": "1.0.0",
-  "private": true,
-  "description": "tinatsby",
-  "author": "Hugo Pernet",
-  "keywords": [
-    "gatsby"
-  ],
-  "scripts": {
-    "develop": "gatsby develop",
-    "dev": "tinacms dev -c \"gatsby develop\"",
-    "tlb": "tinacms build --local",
-    "build": "gatsby build",
-    "tina-build-local": "tinacms build --local",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean"
-  },
-  "dependencies": {
-    "gatsby": "^5.13.7",
-    "gatsby-plugin-mdx": "^5.13.1",
-    "gatsby-source-filesystem": "^5.13.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tinacms": "^2.2.8"
-  },
-  "devDependencies": {
-    "@tinacms/cli": "^1.6.8",
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.7.5",
-    "@types/webpack": "^5.28.5",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
-  }
+    "name": "tinatsby",
+    "version": "1.0.0",
+    "private": true,
+    "description": "tinatsby",
+    "author": "Hugo Pernet",
+    "keywords": [
+        "gatsby"
+    ],
+    "scripts": {
+        "develop": "gatsby develop",
+        "generate-queries": "node generateQueries.js",
+        "update-config": "node updateTinaConfig.js",
+        "dev": "npm run tlb && npm run generate-queries && npm run update-config && tinacms dev -c \"gatsby develop\"",
+        "tlb": "tinacms build --local || exit 0",
+        "build": "gatsby build",
+        "tina-build-local": "tinacms build --local",
+        "serve": "gatsby serve",
+        "clean": "gatsby clean"
+    },
+    "dependencies": {
+        "gatsby": "^5.13.7",
+        "gatsby-plugin-mdx": "^5.13.1",
+        "gatsby-source-filesystem": "^5.13.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "tinacms": "^2.2.8"
+    },
+    "devDependencies": {
+        "@tinacms/cli": "^1.6.8",
+        "@types/express": "^5.0.0",
+        "@types/node": "^22.7.5",
+        "@types/webpack": "^5.28.5",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.6.3"
+    }
 }

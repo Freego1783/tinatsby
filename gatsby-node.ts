@@ -1,9 +1,10 @@
 import express from 'express';
 import { parseMDX } from '@tinacms/mdx';
-import tinaConfig from './tina/config';
-import generateQueryForCollection from './src/utils/tinaGenerator';
 import { GatsbyNode } from 'gatsby';
 import path from 'path';
+import { queriesQuery, fragsQuery } from './tina/__generated__/queries';
+
+// Suppression de l'import direct des queries gql (utilisation du loader à la place)
 
 export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions }) => {
     const { createPage } = actions;
@@ -26,14 +27,29 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
         }
     `)) as { data: { allFile: { edges: { node: { childMdx: { frontmatter: { slug: string }; body: string } } }[] } } };
 
-    const collections = tinaConfig.schema.collections;
+    // Utilisation des queries exportées à partir du fichier queries.js
+    const collections = [
+        {
+            name: 'post',
+            query: `
+                ${fragsQuery}
+                ${queriesQuery}
+            `, // Inclusion des fragments et des queries
+        },
+        {
+            name: 'recipe',
+            query: `
+                ${fragsQuery}
+                ${queriesQuery}
+            `, // Utilisation des mêmes fragments et queries pour les recettes
+        },
+    ];
 
     collections.forEach((collection) => {
+        console.log(`Collection: ${collection}`);
         result.data.allFile.edges.forEach(
             ({ node }: { node: { childMdx: { frontmatter: { slug: string }; body: string } } }) => {
                 const { frontmatter, body } = node.childMdx;
-
-                const query = generateQueryForCollection(collection);
 
                 createPage({
                     path: `${collection.name}/${frontmatter.slug.toLowerCase()}`,
@@ -44,8 +60,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
                             { type: 'rich-text', name: 'markdownParser', parser: { type: 'markdown' } },
                             (s: string) => s
                         ),
-                        variables: { relativePath: frontmatter.slug + '.mdx'},
-                        query: query,
+                        variables: { relativePath: frontmatter.slug + '.mdx' },
+                        query: collection.query, // Utilisation de la query spécifique définie pour chaque collection
                     },
                     defer: true,
                 });
