@@ -11,7 +11,7 @@
         "develop": "gatsby develop",
         "generate-queries": "node generateQueries.js",
         "update-config": "node updateTinaConfig.js",
-        "dev": "npm run tlb && npm run generate-queries && npm run update-config && tinacms dev -c \"gatsby develop\"",
+        "dev": "npm run update-config -- false && npm run tlb && npm run generate-queries && npm run update-config -- true && tinacms dev -c \"gatsby develop\"",
         "tlb": "tinacms build --local || exit 0",
         "build": "gatsby build",
         "tina-build-local": "tinacms build --local",

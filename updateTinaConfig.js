@@ -1,25 +1,29 @@
 const fs = require('fs');
 const path = require('path');
 
-// Chemin vers le fichier de configuration de TinaCMS
+// Get the value of the skip argument
+const skipArg = process.argv[2];
+const skipValue = skipArg === 'true';
+
 const tinaConfigPath = path.join(__dirname, './tina/config.ts');
 
-// Lire le contenu du fichier
 fs.readFile(tinaConfigPath, 'utf8', (err, data) => {
     if (err) {
-        console.error('Erreur lors de la lecture du fichier tina.config.ts:', err);
+        console.error('Erro during the reading of the file:', err);
         return;
     }
 
-    // Rechercher et remplacer `client: { skip: false }` par `client: { skip: true }`
-    const updatedConfig = data.replace(/client:\s*{ skip:\s*false\s*}/, 'client: { skip: true }');
+    // Regex to find the client.skip value
+    const regex = /client:\s*{\s*skip:\s*(true|false)\s*}/;
 
-    // Écrire les modifications dans le fichier
+    // Replace the client.skip value with the
+    const updatedConfig = data.replace(regex, `client: { skip: ${skipValue} }`);
+
     fs.writeFile(tinaConfigPath, updatedConfig, 'utf8', (err) => {
         if (err) {
-            console.error("Erreur lors de l'écriture du fichier tina.config.ts:", err);
+            console.error('Error while writing the value:', err);
             return;
         }
-        console.log('Configuration TinaCMS mise à jour: client.skip est maintenant à true');
+        console.log(`Update of Tina config file, now the client.skipValue = ${skipValue}`);
     });
 });

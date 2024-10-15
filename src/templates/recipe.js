@@ -19,10 +19,10 @@ const Recipe = ({ pageContext }) => {
         return (
             <div>
                 <h1>Recipe page:</h1>
-                <h2 data-tina-field={tinaField(data?.recipe, 'title')}>{data?.recipe?.title}</h2>
+                <h2 data-tina-field={tinaField(data?.data.recipe, 'title')}>{data?.data.recipe?.title}</h2>
 
-                <div data-tina-field={tinaField(data?.recipe, 'body')}>
-                    <TinaMarkdown content={data?.recipe?.body} />
+                <div data-tina-field={tinaField(data?.data.recipe, 'body')}>
+                    <TinaMarkdown content={data?.data.recipe?.body} />
                 </div>
             </div>
         );
@@ -30,7 +30,7 @@ const Recipe = ({ pageContext }) => {
         return (
             <div>
                 <h1>Recipe page:</h1>
-                <TinaMarkdown content={data} />
+                <TinaMarkdown content={data.data} />
             </div>
         );
     }
